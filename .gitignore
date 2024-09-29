@@ -1,7 +1,3 @@
 /admin/api/download-tasks/
 /admin/api/node_modules/
-/admin/client/ssl/
-/filemultiloader/downloaded/
-/tools/onions/
 /user/client/ssl/
-/web/
