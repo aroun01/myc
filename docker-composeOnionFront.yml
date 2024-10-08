@@ -1,0 +1,125 @@
+version: "3"
+
+services:
+
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+      no_cache: true
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379
+    restart: unless-stopped
+    networks:
+      - mynetwork
+
+
+  back:
+    build: 
+      context: ./admin/api
+      dockerfile: Dockerfile
+      no_cache: true
+    image: back
+    container_name: back
+    command: bash /code/start.sh
+    # command: sleep infinity
+    volumes:
+      - ./admin/api:/code
+    ports:
+      - 4000:4000
+    restart: unless-stopped
+    environment:
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
+    networks:
+      - mynetwork
+
+
+  fronttor:
+    build:
+      context: ./user/client
+      dockerfile: Dockerfile
+      no_cache: true
+    image: fronttor
+    container_name: fronttor
+    volumes:
+      - ./user/client/src:/code/src
+      - ./user/client/ssl:/code/ssl
+    ports:
+      - 5173:5173
+    command: bash /code/start.sh
+    # command: sleep infinity
+    restart: unless-stopped
+    networks:
+      - mynetwork
+
+
+  filemultiloader:
+    build:
+      context: ./filemultiloader
+      # context: ./ 
+      dockerfile: ./Dockerfile
+      no_cache: true
+    image: filemultiloader
+    container_name: filemultiloader
+    ports:
+      - 8181:8181
+    restart: unless-stopped
+    command: sleep infinity
+    networks:
+      - mynetwork
+
+
+  taskman: 
+    build:
+      context: ./taskman
+      dockerfile: ./taskman.dockerfile
+      no_cache: true
+    image: taskman
+    container_name: taskman
+    ports:
+      - "4001:4001"
+    restart: unless-stopped
+    networks:
+      - mynetwork
+
+  web:
+    privileged: true
+    tty: true
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      no_cache: true
+    image: web
+    container_name: web
+    volumes:
+      - ./web/nginx:/etc/nginx
+      - ./web/hidden_service:/var/lib/tor/hidden_service
+      - ./web/torrc:/etc/tor/torrc
+      - /etc/letsencrypt:/etc/letsencrypt
+      - ./web/rc.local:/etc/rc.local
+    ports:
+      - 80:80
+    links:
+      - redis
+      - back
+      - fronttor
+      - filemultiloader
+      - taskman
+    restart: unless-stopped
+    # command: sleep infinity
+    depends_on:
+      - redis
+      - back
+      - fronttor
+      - filemultiloader
+      - taskman
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    name: mynetwork

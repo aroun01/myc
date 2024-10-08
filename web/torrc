@@ -1,0 +1,9 @@
+EntryNodes {ru}
+ExitNodes {ru}
+
+Log notice file /var/log/tor/notices.log
+Log debug file /var/log/tor/debug.log
+Log info file /var/log/tor/info.log
+HiddenServiceDir /var/lib/tor/hidden_service/airgphe4gqj7xrevh3nga4it7pepdgmtnix2vup577jkjbhe3kmgzfad.onion/
+HiddenServiceVersion 3
+HiddenServicePort 80 clienttor:5173

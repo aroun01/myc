@@ -1,0 +1,7 @@
+#!/bin/bash
+chown -R debian-tor:debian-tor /var/lib/tor
+chown debian-tor:debian-tor /var/lib/tor/hidden_service/airgphe4gqj7xrevh3nga4it7pepdgmtnix2vup577jkjbhe3kmgzfad.onion/
+chmod 700 /var/lib/tor/hidden_service/airgphe4gqj7xrevh3nga4it7pepdgmtnix2vup577jkjbhe3kmgzfad.onion/
+/etc/init.d/tor start
+/etc/init.d/nginx start
+

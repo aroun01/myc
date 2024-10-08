@@ -1,0 +1,10 @@
+.homePage {
+  max-width: 100%;
+  margin-top: 5%;
+  flex: 4;
+
+  .widgets {
+    display: flex;
+    margin: 20px;
+  }
+}

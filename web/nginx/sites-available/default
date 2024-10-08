@@ -1,0 +1,28 @@
+server {
+    listen 80;
+
+#    server_name airgphe4gqj7xrevh3nga4it7pepdgmtnix2vup577jkjbhe3kmgzfad.onion;
+
+        location /api/ {
+
+        proxy_pass             http://back:4000;
+        proxy_set_header       Host $host;
+        proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header       X-Real-IP $remote_addr;
+        proxy_set_header       X-Forwarded-Proto $scheme;
+    }
+
+
+    location / {
+
+        proxy_pass http://clienttor:5173;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    location ~ /.well-known {
+        allow                  all;
+    }
+}
+
