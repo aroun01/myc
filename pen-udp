@@ -1,3 +1,0 @@
-# Nmap 7.80 scan initiated Mon May 13 21:02:54 2024 as: nmap -p 9001 --open -open-udp -oG -
-WARNING: No targets were specified, so 0 hosts scanned.
-# Nmap done at Mon May 13 21:02:54 2024 -- 0 IP addresses (0 hosts up) scanned in 0.05 seconds
